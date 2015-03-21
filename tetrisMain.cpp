@@ -9,5 +9,4 @@ int main() {
 		game.runningBlock.wipeLine();
 	}
 	game.endGame();
-	getch();
 }

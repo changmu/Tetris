@@ -13,8 +13,8 @@ extern const string Square;
 extern const string Space;
 extern const string Line[];
 extern const string Corner[];
-extern const string Line2[];
-extern const string Corner2[];
+// extern const string Line2[];
+// extern const string Corner2[];
 
 typedef struct Point Point;
 extern const Point mainBoardPos;

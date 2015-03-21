@@ -48,7 +48,7 @@ Game::Game() {
 	printAt(Point(13, 8), g_score);
 
 	printAt(Point(13, 19), "@Changmu");
-	printAt(Point(13, 20), "Ver 0.1");
+	printAt(Point(13, 20), "Ver 0.2");
 }
 
 void Game::drawBoard(string *b, int h, int w) {
@@ -155,13 +155,15 @@ void Block::show(bool sign) {
 }
 
 bool Block::dropDown(int _ms) {
-	Sleep(_ms);
-	show(false);
 	char ch;
-	while (kbhit()) {		// Whether there are key hit among waiting
-		show(false);
+	for ( ; _ms > 0; _ms -= 10) {		// Whether there are key hit among waiting
+		Sleep(10);
+		if (!kbhit()) continue;
+
 		ch = getch();
 		if (ch == -32) {	// Sign of the direction key
+			show(false);
+
 			ch = getch();
 			if (ch == 75) {
 				--pos.x;					// Left
@@ -172,7 +174,8 @@ bool Block::dropDown(int _ms) {
 			} else if (ch == 80) {			// Down to the bottom
 				while (isOk()) ++pos.y;
 				--pos.y;
-			} else if (ch == 72) 				// Up: rotate
+				break;
+			} else if (ch == 72) 			// Up: rotate
 				rotate();
 
 			show(true);
@@ -186,10 +189,14 @@ bool Block::dropDown(int _ms) {
 				// Sleep(200);
 				getch();
 				exit(0);
+			} else {
+				SetCursor(Point(1, 1));
+				for (int i = 0; i < 10; ++i)
+					cout << Space;
 			}
 		}
 	}
-	show(false);
+	show(false);					// Another conversion
 	++pos.y;
 	printAt(Point(13, 8), Game::g_score);
 	if (isOk()) {
