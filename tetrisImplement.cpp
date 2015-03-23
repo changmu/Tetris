@@ -1,6 +1,7 @@
 #include "tetris.h"
 
 const string Square = "¡ö";
+const string SquareFlash = "¡ï";
 const string Space = "  ";
 const string Line[] = {"¨T", "¨U", "¨T", "¨U"};
 const string Corner[] = {"¨X", "¨[", "¨a", "¨^", "  "};
@@ -47,8 +48,8 @@ Game::Game() {
 	printAt(Point(13, 7), "Score:");
 	printAt(Point(13, 8), g_score);
 
-	printAt(Point(13, 19), "@Changmu");
-	printAt(Point(13, 20), "Ver 0.2");
+	printAt(Point(13, 19), "  @QZG");
+	printAt(Point(13, 20), " Ver 0.3");
 }
 
 void Game::drawBoard(string *b, int h, int w) {
@@ -261,10 +262,19 @@ void Block::putOn() {
 		}	
 }
 
+void Block::flashLine(int row) {
+    SetCursor(Point(mainBoardPos.x + 1, mainBoardPos.y + row));
+    for (int i = 1; i <= 10; ++i) {
+        cout << SquareFlash;
+        Sleep(10);
+    }
+}
+
 void Block::wipeLine() {
 	for (int i = 1; i <= 20; ++i) {
 		if (countLineSquare(i) == 10) {
 			++Game::g_score;
+            flashLine(i);
 			for (int j = i - 1; j > 0; --j)
 				moveLineDown(j);
 			if (countLineSquare(1) > 0)
@@ -273,9 +283,10 @@ void Block::wipeLine() {
 	}
 	SetCursor(Point(0, 0));
 	for (int i = 0; i < 22; ++i) {
-		for (int j = 0; j < 12; ++j)
+		for (int j = 0; j < 12; ++j) {
 			cout << Game::mainBoard[i][j];
-		putchar('\n');
+        }
+        putchar('\n');
 	}
 }
 

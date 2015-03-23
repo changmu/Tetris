@@ -10,6 +10,7 @@
 using namespace std;
 
 extern const string Square;
+extern const string SquareFlash;
 extern const string Space;
 extern const string Line[];
 extern const string Corner[];
@@ -47,6 +48,7 @@ public:
 	void rotate();
 	void stringToBool();
 	void putOn();					// Put the block on the mainBoard
+    void flashLine(int row);
 	void wipeLine();
 	int countLineSquare(int row);
 	void moveLineDown(int row);
